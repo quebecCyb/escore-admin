@@ -58,8 +58,6 @@ const Sidebar = () => {
                             </ul>
                         )}
                     </li>
-<<<<<<< HEAD
-=======
                     <li className="relative px-6 py-3">
                         <a href='https://consul.fordka.info/'
                            className="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -93,7 +91,6 @@ const Sidebar = () => {
                           </span>
                         </a>
                     </li>
->>>>>>> origin/main
                 </ul>
                 <div className="px-6 my-6">
                     <button
