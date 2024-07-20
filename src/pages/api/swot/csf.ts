@@ -12,6 +12,7 @@ export default async function handler(
 ) {
     if (req.method === 'POST') {
         try {
+            console.log(JSON.stringify(req.body))
             const response = await fetch('http://162.19.233.237:4040/swot/csf', {
                 method: 'POST',
                 headers: {
