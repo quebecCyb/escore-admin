@@ -50,7 +50,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            // Make a POST request to the server
+            console.log('Make a POST request to the server')
             const response = await fetch('/api/swot/csf', {
                 method: 'POST',
                 headers: {
