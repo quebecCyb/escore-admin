@@ -50,7 +50,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://localhost:4040/swot/csf', {
+            const response = await fetch('http://162.19.233.237:4040/swot/csf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://localhost:4040/swot/mission', {
+            const response = await fetch('http://162.19.233.237:4040/swot/mission', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -102,7 +102,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://localhost:4040/swot/vision', {
+            const response = await fetch('http://162.19.233.237:4040/swot/vision', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -127,7 +127,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://localhost:4040/swot/strategy', {
+            const response = await fetch('http://162.19.233.237:4040/swot/strategy', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
