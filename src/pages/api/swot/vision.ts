@@ -22,7 +22,8 @@ export default async function handler(
 
             if (response.ok) {
                 const data = await response.json();
-                res.status(200).json({ message: 'Success', data });
+
+                res.status(200).json( data );
             } else {
                 console.log(response)
                 const error = await response.text();
