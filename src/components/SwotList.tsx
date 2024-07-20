@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '@/styles/SwotList.module.css';
+import {json} from "node:stream/consumers";
 
 const SwotList = () => {
     // Initialize state for each input field
@@ -141,7 +142,7 @@ const SwotList = () => {
                 const data = await response.json();
                 console.log("Success:", data);
 
-                setStrategy(data.map( (e: any) => `${e.content} <br>`))
+                setStrategy(JSON.stringify(data))
 
             } else {
                 // Handle error
