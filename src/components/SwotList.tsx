@@ -58,7 +58,6 @@ const SwotList = () => {
                 },
                 body: JSON.stringify(payload)
             });
-            console.log(await response.json())
 
             if (response.ok) {
                 // Handle success
@@ -78,7 +77,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://162.19.233.237:4040/swot/mission', {
+            const response = await fetch('/api/swot/mission', { // http://162.19.233.237:4040/swot/mission
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -104,7 +103,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://162.19.233.237:4040/swot/vision', {
+            const response = await fetch('/api/swot/vision', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -129,7 +128,7 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://162.19.233.237:4040/swot/strategy', {
+            const response = await fetch('/api/swot/strategy', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
