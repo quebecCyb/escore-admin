@@ -50,7 +50,8 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            const response = await fetch('http://162.19.233.237:4040/swot/csf', {
+            // Make a POST request to the server
+            const response = await fetch('/api/swot/csf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
