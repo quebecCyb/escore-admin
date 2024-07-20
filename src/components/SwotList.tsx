@@ -88,10 +88,10 @@ const SwotList = () => {
 
             if (response.ok) {
                 // Handle success
-                const data = await response.json();
+                const data = await response.text();
                 console.log("Success:", data);
 
-                setMission(data.map( (e: any) => `${e.content} <br>`))
+                setMission(data)
 
             } else {
                 // Handle error
@@ -114,10 +114,10 @@ const SwotList = () => {
 
             if (response.ok) {
                 // Handle success
-                const data = await response.json();
+                const data = await response.text();
                 console.log("Success:", data);
 
-                setVision(data.map( (e: any) => `${e.content} <br>`))
+                setVision(data)
 
             } else {
                 // Handle error
