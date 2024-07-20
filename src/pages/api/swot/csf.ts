@@ -13,7 +13,7 @@ export default async function handler(
     if (req.method === 'POST') {
         try {
             console.log(123213)
-            const response = await fetch('http://162.19.233.237:4041/api/swot/csf', {
+            const response = await fetch('http://162.19.233.237:4040/swot/csf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
