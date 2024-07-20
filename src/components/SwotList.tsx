@@ -58,7 +58,7 @@ const SwotList = () => {
                 },
                 body: JSON.stringify(payload)
             });
-            console.log(response)
+            console.log(await response.json())
 
             if (response.ok) {
                 // Handle success
