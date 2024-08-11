@@ -157,6 +157,7 @@ const SwotList = () => {
     const getChart = async () => {
         try {
             // Make a POST request to the server
+            console.log('Getting chart!')
             const response = await fetch('/api/swot/chart', {
                 method: 'POST',
                 headers: {
@@ -174,7 +175,7 @@ const SwotList = () => {
             if (response.ok) {
                 // Handle success
                 const data = await response.text();
-                console.log("Success:", data);
+                console.log("Success Of Chart:", data);
 
                 setChart(data)
 
