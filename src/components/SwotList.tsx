@@ -238,7 +238,7 @@ const SwotList = () => {
             </form>
 
             <h2 className="mb-5">Chart</h2>
-            <p dangerouslySetInnerHTML={{__html: chart}}></p>
+            <pre dangerouslySetInnerHTML={{__html: chart}}></pre>
 
             <h2 className="mb-5">Critical Success Factors</h2>
             <p dangerouslySetInnerHTML={{__html: csf}}></p>
