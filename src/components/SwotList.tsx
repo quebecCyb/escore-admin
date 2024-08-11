@@ -173,10 +173,10 @@ const SwotList = () => {
 
             if (response.ok) {
                 // Handle success
-                const data = await response.json();
+                const data = await response.text();
                 console.log("Success:", data);
 
-                setChart(JSON.stringify(data))
+                setChart(data)
 
             } else {
                 // Handle error
