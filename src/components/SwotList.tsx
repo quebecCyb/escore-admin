@@ -11,6 +11,7 @@ const SwotList = () => {
 
     // Initialize state for critical success factors
     const [csf, setCsf] = useState('');
+    const [chart, setChart] = useState('');
     const [mission, setMission] = useState('');
     const [strategy, setStrategy] = useState('');
     const [vision, setVision] = useState('');
@@ -66,7 +67,7 @@ const SwotList = () => {
                 console.log("Success:", data);
 
                 setCsf(data.map( (e: any) => `${e.content} <br>`))
-
+                getChart();
             } else {
                 // Handle error
                 console.error("Error:", response.statusText);
@@ -153,6 +154,39 @@ const SwotList = () => {
         }
     };
 
+    const getChart = async () => {
+        try {
+            // Make a POST request to the server
+            const response = await fetch('/api/swot/chart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    strength,
+                    weaknesses,
+                    opportunities,
+                    threats,
+                    csf
+                })
+            });
+
+            if (response.ok) {
+                // Handle success
+                const data = await response.json();
+                console.log("Success:", data);
+
+                setChart(JSON.stringify(data))
+
+            } else {
+                // Handle error
+                console.error("Error:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
     return (
         <>
             <form onSubmit={analyze} className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
@@ -201,6 +235,9 @@ const SwotList = () => {
                     Submit
                 </button>
             </form>
+
+            <h2 className="mb-5">Chart</h2>
+            <p dangerouslySetInnerHTML={{__html: chart}}></p>
 
             <h2 className="mb-5">Critical Success Factors</h2>
             <p dangerouslySetInnerHTML={{__html: csf}}></p>
