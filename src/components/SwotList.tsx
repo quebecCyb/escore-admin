@@ -143,8 +143,7 @@ const SwotList = () => {
                 const data = await response.json();
                 console.log("Success:", data);
 
-                setStrategy(JSON.stringify(data))
-
+                setStrategy(`Strength: ${data.Strength.content} <br> Weakness: ${data.Weakness.content} <br> Opportunity: ${data.Opportunity.content} <br> Threats: ${data.Threat.content} <br>`);
             } else {
                 // Handle error
                 console.error("Error:", response.statusText);
