@@ -249,7 +249,7 @@ const SwotList = () => {
 
 
             <h2>Strategy</h2>
-            {/*<p dangerouslySetInnerHTML={{__html: strategy}}></p>*/}
+            <p dangerouslySetInnerHTML={{__html: strategy}}></p>
 
             <h2>Objective Vision</h2>
             <p dangerouslySetInnerHTML={{__html: vision}}></p>
