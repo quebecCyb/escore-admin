@@ -13,7 +13,7 @@ export default async function handler(
     if (req.method === 'POST') {
         console.log(JSON.stringify(req.body))
         try {
-            const response = await fetch('http://162.19.233.237:4040/swot/chart', {
+            const response = await fetch('https://exec-api.fordka.info/swot/chart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

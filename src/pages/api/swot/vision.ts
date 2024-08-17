@@ -12,7 +12,7 @@ export default async function handler(
 ) {
     if (req.method === 'POST') {
         try {
-            const response = await fetch('http://162.19.233.237:4040/swot/vision', {
+            const response = await fetch('https://exec-api.fordka.info/swot/vision', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
