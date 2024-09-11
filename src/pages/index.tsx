@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import SwotList from "@/components/SwotList";
+import RadarChart from "@/components/Radar";
 
 export default function Home() {
   return (
@@ -20,7 +21,6 @@ export default function Home() {
               </div>
               <span>View more →</span>
           </a>
-
           <SwotList />
       </Layout>
   );

@@ -29,10 +29,10 @@ const Layout = ({ children, title = 'Default Title' }: any) => {
 
 
             <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-                <Sidebar/>
+                {/*<Sidebar/>*/}
 
                 <div className="flex flex-col flex-1 w-full">
-                <Header/>
+                {/*<Header/>*/}
 
                     <main className="h-full overflow-y-auto">
                         <div className="container px-6 mb-5 mx-auto grid">

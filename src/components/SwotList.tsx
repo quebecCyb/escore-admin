@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from '@/styles/SwotList.module.css';
 import {json} from "node:stream/consumers";
+import RadarChart from "@/components/Radar";
+import StrategyTable from "@/components/StratTable";
 
 const SwotList = () => {
     // Initialize state for each input field
@@ -15,6 +17,10 @@ const SwotList = () => {
     const [mission, setMission] = useState('');
     const [strategy, setStrategy] = useState('');
     const [vision, setVision] = useState('');
+
+
+    const [chartData, setChartData] = useState(null);
+    const [tableData, setTableData] = useState(null)
 
     // Handle input change events
     const handleStrengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,108 +48,30 @@ const SwotList = () => {
         console.log("Opportunities:", opportunities);
         console.log("Threats:", threats);
 
-        // Create the payload object
-        const payload = {
-            Strength: strength,
-            Weaknesses: weaknesses,
-            Opportunities: opportunities,
-            Threats: threats
-        };
 
         try {
             // Make a POST request to the server
-            console.log('Make a POST request to the server')
+            console.log('Getting chart!')
             const response = await fetch('/api/swot/csf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({
+                    swot: `Strength: ${strength}; Weaknesses: ${weaknesses}; opportunities: ${opportunities}; threats: ${threats}`
+                })
             });
 
             if (response.ok) {
                 // Handle success
                 const data = await response.json();
-                console.log("Success:", data);
+                console.log("Success Of Chart:", data.data);
 
-                setCsf(data.map( (e: any) => `${e.content} <br>`))
-                getChart();
-            } else {
-                // Handle error
-                console.error("Error:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
+                console.log(data.data)
 
+                setChartData(data.data.chart);
+                setTableData(data.data);
 
-        try {
-            // Make a POST request to the server
-            const response = await fetch('/api/swot/mission', { // http://162.19.233.237:4040/swot/mission
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                // Handle success
-                const data = await response.text();
-                console.log("Success:", data);
-
-                setMission(data)
-
-            } else {
-                // Handle error
-                console.error("Error:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-
-
-        try {
-            // Make a POST request to the server
-            const response = await fetch('/api/swot/vision', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                // Handle success
-                const data = await response.text();
-                console.log("Success:", data);
-
-                setVision(data)
-
-            } else {
-                // Handle error
-                console.error("Error:", response.statusText);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-
-        try {
-            // Make a POST request to the server
-            const response = await fetch('/api/swot/strategy', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                // Handle success
-                const data = await response.json();
-                console.log("Success:", data);
-
-                setStrategy(`Strength: ${data.Strength.content} <br> Weakness: ${data.Weakness.content} <br> Opportunity: ${data.Opportunity.content} <br> Threats: ${data.Threat.content} <br>`);
             } else {
                 // Handle error
                 console.error("Error:", response.statusText);
@@ -157,17 +85,13 @@ const SwotList = () => {
         try {
             // Make a POST request to the server
             console.log('Getting chart!')
-            const response = await fetch('/api/swot/chart', {
+            const response = await fetch('/api/swot/csf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    strength,
-                    weaknesses,
-                    opportunities,
-                    threats,
-                    csf: csf.toString()
+                    swot: `Strength: ${strength}; Weaknesses: ${weaknesses}; opportunities: ${opportunities}; threats: ${threats}`
                 })
             });
 
@@ -190,6 +114,11 @@ const SwotList = () => {
     return (
         <>
             <form onSubmit={analyze} className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+                <label>Strengths</label>
+                <label>Weaknesses</label>
+                <label>Opportunities</label>
+                <label>Threats</label>
+
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <input
                         className={styles.input}
@@ -235,6 +164,8 @@ const SwotList = () => {
                     Submit
                 </button>
             </form>
+            {chartData && <RadarChart chartData={chartData} />}
+            {tableData && <StrategyTable data={tableData} />}
 
             <h2 className="mb-5">Chart</h2>
             <pre dangerouslySetInnerHTML={{__html: chart}}></pre>
