@@ -13,7 +13,7 @@ export default async function handler(
     if (req.method === 'POST') {
         try {
             console.log(req.body)
-            const response = await fetch('http://127.0.0.1:5000/swot', {
+            const response = await fetch('http://162.19.233.237:4040/swot', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
