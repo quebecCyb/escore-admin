@@ -5,6 +5,10 @@ module.exports = {
             aggregateTimeout: 300, // Задержка перед перезагрузкой
             ignored: /node_modules/,
         };
+        config.client = {
+            overlay: false, // Отключение overlay для WebSocket
+            progress: false, // Отключение progress для WebSocket
+        };
         return config;
     },
     onDemandEntries: {
