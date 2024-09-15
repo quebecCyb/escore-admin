@@ -29,8 +29,12 @@ export default async function handler(
                 const error = await response.text();
                 res.status(response.status).json({ message: 'Error', data: error });
             }
-        } catch (error) {
-            res.status(500).json({ message: 'Internal Server Error', data: error.message });
+        } catch (error: unknown) {
+            if(error instanceof Error){
+                res.status(500).json({ message: 'Internal Server Error', data: error.message });
+            }else{
+                res.status(500).json({ message: 'Internal Server Error', data: error });
+            }
         }
     } else {
         res.status(405).json({ message: 'Method Not Allowed' });

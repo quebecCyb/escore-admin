@@ -1,11 +1,34 @@
 import React from 'react';
 import exp from "node:constants";
 
-const StrategyTable = ({ data }) => {
+interface SWOTItem {
+    content: string;
+    critical_success_factor: string;
+}
+
+interface Cluster {
+    name: string;
+    strategy: string;
+    mission: string;
+    swot: SWOTItem[];
+}
+
+interface ClustersData {
+    clusters: Cluster[];
+    mission_statement: string;
+    vision: string;
+}
+
+interface StrategyTableProps {
+    clusters: ClustersData;
+}
+
+
+const StrategyTable = ({ data }: {data: StrategyTableProps}) => {
     console.log('clusters!!!!!')
     console.log(data)
     return (
-        <table border="1" style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
+        <table border={1} style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
             <thead>
             <tr>
                 <th>SWOT & CSFs</th>
@@ -16,11 +39,11 @@ const StrategyTable = ({ data }) => {
             </tr>
             </thead>
             <tbody>
-            {data.clusters.clusters.map((cluster, index) => (
+            {data.clusters.clusters.map((cluster: Cluster, index: number) => (
                 <tr key={index}>
                     <td>
                         <ul>
-                            {cluster.swot.map((swotItem, swotIndex) => (
+                            {cluster.swot.map((swotItem, swotIndex: number) => (
                                 <li key={swotIndex}>
                                     <strong>{swotItem.content}</strong>
                                     <br />

@@ -8,7 +8,7 @@ import {
     LineElement,
     Filler,
     Tooltip,
-    Legend,
+    Legend, FontSpec,
 } from 'chart.js';
 
 const parseChartData = (chartData: Record<string, any>) => {
@@ -50,7 +50,7 @@ const RadarChart = ({ chartData }: {chartData: Record<string, any>}) => {
                         family: 'Arial', // Font family
                         style: 'italic', // Font style
                         weight: 'bold', // Font weight
-                    },
+                    } as Partial<FontSpec>,
                     color: '#fff', // Font color for the labels
                 },
                 ticks: {
@@ -67,7 +67,7 @@ const RadarChart = ({ chartData }: {chartData: Record<string, any>}) => {
                         family: 'Arial',
                         style: 'italic',
                         weight: 'bold',
-                    },
+                    } as Partial<FontSpec>,
                     color: '#fff', // Color of the legend labels
                 },
             },
