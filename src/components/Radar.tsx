@@ -11,7 +11,7 @@ import {
     Legend,
 } from 'chart.js';
 
-const parseChartData = (chartData) => {
+const parseChartData = (chartData: Record<string, any>) => {
     const labels = Object.keys(chartData);
     const data = Object.values(chartData).map(value => parseInt(value, 10));
 
@@ -32,7 +32,7 @@ const parseChartData = (chartData) => {
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
-const RadarChart = ({ chartData }) => {
+const RadarChart = ({ chartData }: {chartData: Record<string, any>}) => {
     const data = parseChartData(chartData);
 
     const options = {
