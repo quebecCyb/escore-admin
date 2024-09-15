@@ -3,21 +3,15 @@ import styles from '@/styles/SwotList.module.css';
 import {json} from "node:stream/consumers";
 import RadarChart from "@/components/Radar";
 import StrategyTable from "@/components/StratTable";
+import SwotTable from "@/components/SwotTable";
 
 const SwotList = () => {
+
     // Initialize state for each input field
     const [strength, setStrength] = useState('Strong Brand Reputation');
     const [weaknesses, setWeaknesses] = useState('High Operating Costs');
     const [opportunities, setOpportunities] = useState('Strategic Partnerships');
     const [threats, setThreats] = useState('Intense Competition ');
-
-    // Initialize state for critical success factors
-    const [csf, setCsf] = useState('');
-    const [chart, setChart] = useState('');
-    const [mission, setMission] = useState('');
-    const [strategy, setStrategy] = useState('');
-    const [vision, setVision] = useState('');
-
 
     const [chartData, setChartData] = useState(null);
     const [tableData, setTableData] = useState(null)
@@ -99,9 +93,6 @@ const SwotList = () => {
                 // Handle success
                 const data = await response.text();
                 console.log("Success Of Chart:", data);
-
-                setChart(data)
-
             } else {
                 // Handle error
                 console.error("Error:", response.statusText);
@@ -164,25 +155,11 @@ const SwotList = () => {
                     Submit
                 </button>
             </form>
-            {chartData && <RadarChart chartData={chartData} />}
+            {(strength || weaknesses || opportunities || threats) && <SwotTable strengths={strength} weaknesses={weaknesses} opportunities={opportunities} threats={threats} />}
             {tableData && <StrategyTable data={tableData} />}
-
-            <h2 className="mb-5">Chart</h2>
-            <pre dangerouslySetInnerHTML={{__html: chart}}></pre>
-
-            <h2 className="mb-5">Critical Success Factors</h2>
-            <p dangerouslySetInnerHTML={{__html: csf}}></p>
+            {chartData && <RadarChart chartData={chartData} />}
 
 
-            <h2>Objective Missions</h2>
-            <p dangerouslySetInnerHTML={{__html: mission}}></p>
-
-
-            <h2>Strategy</h2>
-            <p dangerouslySetInnerHTML={{__html: strategy}}></p>
-
-            <h2>Objective Vision</h2>
-            <p dangerouslySetInnerHTML={{__html: vision}}></p>
         </>
     );
 };
