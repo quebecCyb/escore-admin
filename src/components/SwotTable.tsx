@@ -13,39 +13,39 @@ interface SWOTTableProps {
 
 const SWOTTable: React.FC<SWOTTableProps> = ({ strengths, weaknesses, opportunities, threats }) => {
     return (
-        <table border={1} style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
+        <table border={1} style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse', border: '1px solid white' }}>
             <thead>
-            <tr>
-                <th>Strengths</th>
-                <th>Weaknesses</th>
-                <th>Opportunities</th>
-                <th>Threats</th>
+            <tr style={{ border: '1px solid white' }}>
+                <th style={{ border: '1px solid white' }}>Strengths</th>
+                <th style={{ border: '1px solid white' }}>Weaknesses</th>
+                <th style={{ border: '1px solid white' }}>Opportunities</th>
+                <th style={{ border: '1px solid white' }}>Threats</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>
+            <tr   style={{ border: '1px solid white', padding: '8px' }}>
+                <td style={{ border: '1px solid white', padding: '8px' }}>
                     <ul>
                         {strengths.split(';').map((item, index) => (
                             <li key={index}>{item}</li>
                         ))}
                     </ul>
                 </td>
-                <td>
+                <td style={{ border: '1px solid white' }}>
                     <ul>
                         {weaknesses.split(';').map((item, index) => (
                             <li key={index}>{item}</li>
                         ))}
                     </ul>
                 </td>
-                <td>
+                <td style={{ border: '1px solid white' }}>
                     <ul>
                         {opportunities.split(';').map((item, index) => (
                             <li key={index}>{item}</li>
                         ))}
                     </ul>
                 </td>
-                <td>
+                <td style={{ border: '1px solid white' }}>
                     <ul>
                         {threats.split(';').map((item, index) => (
                             <li key={index}>{item}</li>

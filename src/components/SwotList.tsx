@@ -4,6 +4,40 @@ import {json} from "node:stream/consumers";
 import RadarChart from "@/components/Radar";
 import StrategyTable from "@/components/StratTable";
 import SwotTable from "@/components/SwotTable";
+import ClusterTable from "@/components/ClusterTable";
+import CsfTable from "@/components/CsfTable";
+import CSFKPITable from "@/components/kpiTable";
+
+interface KPI {
+    name: string;
+    formula: string;
+    description: string;
+    perspective: string;
+}
+
+interface SWOTItem {
+    content: string;
+    type: number;
+    critical_success_factor: string;
+    kpi: KPI;
+}
+
+interface Cluster {
+    name: string;
+    strategy: string;
+    mission: string;
+    swot: SWOTItem[];
+}
+
+interface Clusters {
+    vision: string;
+    mission_statement: string;
+    clusters: Cluster[];
+}
+
+interface TableData {
+    clusters: Clusters
+}
 
 const SwotList = () => {
 
@@ -14,7 +48,7 @@ const SwotList = () => {
     const [threats, setThreats] = useState('Intense Competition ');
 
     const [chartData, setChartData] = useState(null);
-    const [tableData, setTableData] = useState(null)
+    const [tableData, setTableData] = useState<TableData | null>(null);
 
     // Handle input change events
     const handleStrengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +99,7 @@ const SwotList = () => {
 
                 setChartData(data.data.chart);
                 setTableData(data.data);
+
 
             } else {
                 // Handle error
@@ -155,9 +190,25 @@ const SwotList = () => {
                     Submit
                 </button>
             </form>
-            {(strength || weaknesses || opportunities || threats) && <SwotTable strengths={strength} weaknesses={weaknesses} opportunities={opportunities} threats={threats} />}
-            {tableData && <StrategyTable data={tableData} />}
-            {chartData && <RadarChart chartData={chartData} />}
+            <h2>SWOT</h2>
+            {(strength || weaknesses || opportunities || threats) &&
+                <SwotTable strengths={strength} weaknesses={weaknesses} opportunities={opportunities}
+                           threats={threats}/>}
+            <h2>Clusters</h2>
+
+            {tableData && <ClusterTable clusters={tableData.clusters.clusters}/>}
+            <h2>Critical success factors</h2>
+
+            {tableData && <CsfTable clusters={tableData.clusters.clusters}/>}
+            <h2>Strategy</h2>
+
+            {tableData && <StrategyTable clusters={tableData.clusters}/>}
+            <h2>KPI</h2>
+
+            {tableData && <CSFKPITable clusters={tableData.clusters.clusters}/>}
+
+            <h2>Radar</h2>
+            {chartData && <RadarChart chartData={chartData}/>}
 
 
         </>

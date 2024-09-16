@@ -24,24 +24,24 @@ interface StrategyTableProps {
 }
 
 
-const StrategyTable = ({ data }: {data: StrategyTableProps}) => {
+const StrategyTable: React.FC<StrategyTableProps> = ({ clusters }) => {
     console.log('clusters!!!!!')
-    console.log(data)
+    console.log(clusters)
     return (
         <table border={1} style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
             <thead>
-            <tr>
-                <th>SWOT & CSFs</th>
-                <th>Strategy</th>
-                <th>Local Mission</th>
-                <th>Global mission</th>
-                <th>Vision</th>
+            <tr style={{ border: '1px solid white', padding: '8px' }}>
+                <th style={{ border: '1px solid white', padding: '8px' }}>SWOT & CSFs</th>
+                <th style={{ border: '1px solid white', padding: '8px' }}>Strategy</th>
+                <th style={{ border: '1px solid white', padding: '8px' }}>Local Mission</th>
+                <th style={{ border: '1px solid white', padding: '8px' }}>Global mission</th>
+                <th style={{ border: '1px solid white', padding: '8px' }}>Vision</th>
             </tr>
             </thead>
             <tbody>
-            {data.clusters.clusters.map((cluster: Cluster, index: number) => (
-                <tr key={index}>
-                    <td>
+            {clusters.clusters.map((cluster: Cluster, index: number) => (
+                <tr key={index} style={{ border: '1px solid white', padding: '8px' }}>
+                    <td style={{ border: '1px solid white', padding: '8px' }}>
                         <ul>
                             {cluster.swot.map((swotItem, swotIndex: number) => (
                                 <li key={swotIndex}>
@@ -52,21 +52,21 @@ const StrategyTable = ({ data }: {data: StrategyTableProps}) => {
                             ))}
                         </ul>
                     </td>
-                    <td>
+                    <td style={{ border: '1px solid white', padding: '8px' }}>
                         <strong>{cluster.name}</strong>
                         <p>{cluster.strategy}</p>
                     </td>
-                    <td>
+                    <td style={{ border: '1px solid white', padding: '8px' }}>
                         <p>{cluster.mission}</p>
                     </td>
                     {/* Глобальная миссия и видение выводятся один раз для каждой стратегии */}
                     {index === 0 && (
                         <>
-                            <td rowSpan={data.clusters.clusters.length} style={{ verticalAlign: 'top' }}>
-                                {data.clusters.mission_statement}
+                            <td style={{ border: '1px solid white', padding: '8px', verticalAlign: 'top' }} rowSpan={clusters.clusters.length}>
+                                {clusters.mission_statement}
                             </td>
-                            <td rowSpan={data.clusters.clusters.length} style={{ verticalAlign: 'top' }}>
-                                {data.clusters.vision}
+                            <td style={{ border: '1px solid white', padding: '8px', verticalAlign: 'top' }} rowSpan={clusters.clusters.length}>
+                                {clusters.vision}
                             </td>
                         </>
                     )}
