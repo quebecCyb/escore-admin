@@ -13,6 +13,8 @@ interface KPI {
     formula: string;
     description: string;
     perspective: string;
+    actuals: string;
+    targets: string;
 }
 
 interface SWOTItem {
@@ -208,7 +210,7 @@ const SwotList = () => {
             {tableData && <CSFKPITable clusters={tableData.clusters.clusters}/>}
 
             <h2>Radar</h2>
-            {chartData && <RadarChart chartData={chartData}/>}
+            {tableData && <RadarChart clusters={tableData.clusters.clusters}/>}
 
 
         </>
