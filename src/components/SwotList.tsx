@@ -55,22 +55,22 @@ const SwotList = () => {
     const [tableData, setTableData] = useState<TableData | null>(null);
 
     // Handle input change events
-    const handleStrengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleStrengthChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setStrength(e.target.value);
     };
 
-    const handleWeaknessesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleWeaknessesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setWeaknesses(e.target.value);
     };
     const handleDescChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBusinessDescription(e.target.value);
     };
 
-    const handleOpportunitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleOpportunitiesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setOpportunities(e.target.value);
     };
 
-    const handleThreatsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleThreatsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setThreats(e.target.value);
     };
 
@@ -210,7 +210,6 @@ const SwotList = () => {
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <textarea
                         className={styles.input}
-                        type="text"
                         name="strength"
                         placeholder="Strength"
                         value={strength}
@@ -220,7 +219,6 @@ const SwotList = () => {
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <textarea
                         className={styles.input}
-                        type="text"
                         name="weaknesses"
                         placeholder="Weaknesses"
                         value={weaknesses}
@@ -230,7 +228,6 @@ const SwotList = () => {
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <textarea
                         className={styles.input}
-                        type="text"
                         name="opportunities"
                         placeholder="Opportunities"
                         value={opportunities}
@@ -240,7 +237,6 @@ const SwotList = () => {
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <textarea
                         className={styles.input}
-                        type="text"
                         name="threats"
                         placeholder="Threats"
                         value={threats}
