@@ -7,6 +7,7 @@ import SwotTable from "@/components/SwotTable";
 import ClusterTable from "@/components/ClusterTable";
 import CsfTable from "@/components/CsfTable";
 import CSFKPITable from "@/components/kpiTable";
+import PerspectiveKPITable from "@/components/kpiconnections";
 
 interface KPI {
     name: string;
@@ -50,6 +51,7 @@ const SwotList = () => {
     const [threats, setThreats] = useState('Intense Competition ');
 
     const [chartData, setChartData] = useState(null);
+    const [businessDescription, setBusinessDescription] = useState('Basic Description');
     const [tableData, setTableData] = useState<TableData | null>(null);
 
     // Handle input change events
@@ -59,6 +61,9 @@ const SwotList = () => {
 
     const handleWeaknessesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWeaknesses(e.target.value);
+    };
+    const handleDescChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setBusinessDescription(e.target.value);
     };
 
     const handleOpportunitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +86,6 @@ const SwotList = () => {
 
         try {
             // Make a POST request to the server
-            console.log('Getting chart!')
             const response = await fetch('/api/swot/csf', {
                 method: 'POST',
                 headers: {
@@ -112,6 +116,41 @@ const SwotList = () => {
         }
     };
 
+    const generateSwot = async (e: React.FormEvent) => {
+        e.preventDefault(); // Prevents the default form submission behavior
+        try {
+            // Make a POST request to the server
+            const response = await fetch('/api/swot/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    swot: businessDescription
+                })
+            });
+
+            if (response.ok) {
+                // Handle success
+
+                console.log(response);
+                const data = await response.json();
+
+
+                setStrength(data.data.strength.join(';\n'));
+                setWeaknesses(data.data.weaknesses.join(';\n'));
+                setOpportunities(data.data.opportunities.join(';\n'));
+                setThreats(data.data.threats.join(';\n'));
+
+            } else {
+                // Handle error
+                console.error("Error:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
     const getChart = async () => {
         try {
             // Make a POST request to the server
@@ -141,6 +180,27 @@ const SwotList = () => {
 
     return (
         <>
+            <form onSubmit={generateSwot}>
+                <label>Business Description</label>
+
+                <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <input
+                        className={styles.input}
+                        type="text"
+                        name="bidesc"
+                        placeholder="business description"
+                        value={businessDescription}
+                        onChange={handleDescChange}
+                    />
+
+                    <button type="submit"
+                            className="px-4 py-2 font-medium text-white bg-purple-600 rounded-lg focus:outline-none focus:shadow-outline-purple">
+                        Submit
+                    </button>
+
+                </div>
+            </form>
+
             <form onSubmit={analyze} className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
                 <label>Strengths</label>
                 <label>Weaknesses</label>
@@ -148,7 +208,7 @@ const SwotList = () => {
                 <label>Threats</label>
 
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                    <input
+                    <textarea
                         className={styles.input}
                         type="text"
                         name="strength"
@@ -158,7 +218,7 @@ const SwotList = () => {
                     />
                 </div>
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                    <input
+                    <textarea
                         className={styles.input}
                         type="text"
                         name="weaknesses"
@@ -168,7 +228,7 @@ const SwotList = () => {
                     />
                 </div>
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                    <input
+                    <textarea
                         className={styles.input}
                         type="text"
                         name="opportunities"
@@ -178,7 +238,7 @@ const SwotList = () => {
                     />
                 </div>
                 <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                    <input
+                    <textarea
                         className={styles.input}
                         type="text"
                         name="threats"
@@ -212,6 +272,8 @@ const SwotList = () => {
             <h2>Radar</h2>
             {tableData && <RadarChart clusters={tableData.clusters.clusters}/>}
 
+            <h2>KPI</h2>
+            {tableData && <PerspectiveKPITable clusters={tableData.clusters.clusters}/>}
 
         </>
     );
