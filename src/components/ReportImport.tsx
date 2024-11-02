@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {useRequiredReport} from "@/contexts/ReportContext";
 
 const ReportImport = () => {
     const { requiredReport, extractedReport, setRequiredReport, setExtractedReport } = useRequiredReport();
 
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     // Обработчик изменения файла
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target && e.target.files ? e.target.files[0] : null;
+        if(file)
+            setSelectedFile(file);
     };
 
     // Обработчик изменения текстового поля
