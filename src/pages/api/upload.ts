@@ -30,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         try {
             const { fields, files } = await parseForm(req);
 
-            const requiredField = fields.required as string;
+            const requiredField = Array.isArray(fields.required) ? fields.required[0] : fields.required;
             let file = files.file as File;
 
             if (!file || !requiredField) {
