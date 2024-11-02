@@ -31,15 +31,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             const { fields, files } = await parseForm(req);
 
             const requiredField = Array.isArray(fields.required) ? fields.required[0] : fields.required;
-            let file = files.file as File;
+            let file = Array.isArray(files.file) ? files.file[0] : files.file;
 
             if (!file || !requiredField) {
                 res.status(400).json({ error: 'File or required field is missing' });
                 return;
-            }
-
-            if (Array.isArray(file)) {
-                file = file[0] as File;
             }
 
             // Read the file data from the temporary file path
