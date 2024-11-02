@@ -23,7 +23,7 @@ const ReportImport = () => {
         if (selectedFile && requiredReport) {
             const formData = new FormData();
             formData.append('file', selectedFile);
-            formData.append('required', requiredReport);
+            formData.append('required', requiredReport.toString());
 
             try {
                 // Отправка данных на бекенд Next.js
