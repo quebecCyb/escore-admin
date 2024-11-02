@@ -44,10 +44,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             // Parse the Excel file to JSON
             const workbook = XLSX.read(fileData, { type: 'buffer' });
             const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            const jsonData: string[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
             // Convert the JSON data to a plain text format
-            const textData = jsonData.map(row => row.join(' | ')).join('\n');
+            const textData = jsonData.map((row: string[]) => row.join(' | ')).join('\n');
 
             // Prepare the data for the request
             const data = {
