@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import SwotList from "@/components/SwotList";
-import RadarChart from "@/components/Radar";
+import jwt from "jsonwebtoken";
 
 export default function Home() {
   return (
@@ -26,7 +26,29 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps({req}) {
+
+    const { token } = req.cookies;
+    if (!token) {
+        return {
+            redirect: {
+                destination: '/log',
+                permanent: false,
+            },
+        };
+    }
+    try {
+        jwt.verify(token, process.env.JWT_SECRET);
+        return { props: {} };
+    } catch {
+        return {
+            redirect: {
+                destination: '/log',
+                permanent: false,
+            },
+        };
+    }
+
     return {
         props: {
 

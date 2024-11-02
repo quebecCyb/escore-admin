@@ -25,8 +25,6 @@ interface StrategyTableProps {
 
 
 const StrategyTable: React.FC<StrategyTableProps> = ({ clusters }) => {
-    console.log('clusters!!!!!')
-    console.log(clusters)
     return (
         <table border={1} style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
             <thead>

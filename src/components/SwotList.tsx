@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from '@/styles/SwotList.module.css';
 import {json} from "node:stream/consumers";
 import RadarChart from "@/components/Radar";
@@ -8,6 +8,9 @@ import ClusterTable from "@/components/ClusterTable";
 import CsfTable from "@/components/CsfTable";
 import CSFKPITable from "@/components/kpiTable";
 import PerspectiveKPITable from "@/components/kpiconnections";
+import ReportImport from "@/components/ReportImport";
+import {useRequiredReport} from "@/contexts/ReportContext";
+import KpiActualTargets from "@/components/KpiActualTargets";
 
 interface KPI {
     name: string;
@@ -40,15 +43,21 @@ interface Clusters {
 
 interface TableData {
     clusters: Clusters
+    required_kpi: any
 }
 
 const SwotList = () => {
+    const [isSaving, setIsSaving] = useState(false);
+    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null); // Adjusted state type for NodeJS.Timeout
 
     // Initialize state for each input field
     const [strength, setStrength] = useState('Strong Brand Reputation');
     const [weaknesses, setWeaknesses] = useState('High Operating Costs');
     const [opportunities, setOpportunities] = useState('Strategic Partnerships');
     const [threats, setThreats] = useState('Intense Competition ');
+
+    const { requiredReport, extractedReport, setRequiredReport, setExtractedReport } = useRequiredReport();
+
 
     const [chartData, setChartData] = useState(null);
     const [businessDescription, setBusinessDescription] = useState('Basic Description');
@@ -74,14 +83,42 @@ const SwotList = () => {
         setThreats(e.target.value);
     };
 
+    const save = useCallback(async () => {
+        setIsSaving(true);
+
+        // Simulate save operation
+        console.log('Saving report...');
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+        console.log('Report saved successfully!');
+
+        setIsSaving(false);
+    }, []);
+
+    // Handle content change
+    const handleChange = () => {
+        // Reset the timer if there's a new change
+        if (timer) clearTimeout(timer);
+
+        // Set a new timer to save after 10 seconds if no further changes
+        setTimer(
+            setTimeout(() => {
+                save();
+            }, 10000)
+        );
+    };
+
+    // Clear the timer on component unmount to prevent memory leaks
+    useEffect(() => {
+        return () => {
+            if (timer) clearTimeout(timer);
+        };
+    }, [timer]);
+
+
     // Handle form submission
     const analyze = async (e: React.FormEvent) => {
         e.preventDefault(); // Prevents the default form submission behavior
         console.log("Form submitted!"); // Log the submission to the console
-        console.log("Strength:", strength);
-        console.log("Weaknesses:", weaknesses);
-        console.log("Opportunities:", opportunities);
-        console.log("Threats:", threats);
 
 
         try {
@@ -99,13 +136,12 @@ const SwotList = () => {
             if (response.ok) {
                 // Handle success
                 const data = await response.json();
-                console.log("Success Of Chart:", data.data);
-
-                console.log(data.data)
+                console.log("Success Of Chart:", data.data.clusters.required_kpi);
 
                 setChartData(data.data.chart);
                 setTableData(data.data);
 
+                setRequiredReport(data.data.clusters.required_kpi)
 
             } else {
                 // Handle error
@@ -114,6 +150,7 @@ const SwotList = () => {
         } catch (error) {
             console.error("Error:", error);
         }
+        await save();
     };
 
     const generateSwot = async (e: React.FormEvent) => {
@@ -133,7 +170,6 @@ const SwotList = () => {
             if (response.ok) {
                 // Handle success
 
-                console.log(response);
                 const data = await response.json();
 
 
@@ -261,15 +297,23 @@ const SwotList = () => {
             <h2>Strategy</h2>
 
             {tableData && <StrategyTable clusters={tableData.clusters}/>}
-            <h2>KPI</h2>
 
+
+            <ReportImport/>
+
+            <h2>KPI Extracted</h2>
+            <KpiActualTargets />
+
+            <h2>KPI</h2>
             {tableData && <CSFKPITable clusters={tableData.clusters.clusters}/>}
+
+            <h2>Mapping</h2>
+            {tableData && <PerspectiveKPITable clusters={tableData.clusters.clusters}/>}
+
 
             <h2>Radar</h2>
             {tableData && <RadarChart clusters={tableData.clusters.clusters}/>}
 
-            <h2>KPI</h2>
-            {tableData && <PerspectiveKPITable clusters={tableData.clusters.clusters}/>}
 
         </>
     );
