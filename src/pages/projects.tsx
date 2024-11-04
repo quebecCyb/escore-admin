@@ -14,7 +14,7 @@ const ProjectsPage = ({ projects }) => {
 
         if (!token) {
             // Redirect to login if no token
-            router.push('/log');
+            router.push('/log-3');
             return;
         }
 
@@ -168,7 +168,7 @@ export async function getServerSideProps({ req }) {
     if (!token) {
         return {
             redirect: {
-                destination: '/log',
+                destination: '/log-1',
                 permanent: false,
             },
         };
@@ -199,7 +199,7 @@ export async function getServerSideProps({ req }) {
         console.error(error);
         return {
             redirect: {
-                destination: '/log',
+                destination: '/log-2',
                 permanent: false,
             },
         };
