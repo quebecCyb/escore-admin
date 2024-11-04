@@ -168,7 +168,7 @@ export async function getServerSideProps({ req }) {
     if (!token) {
         return {
             redirect: {
-                destination: '/log-1',
+                destination: '/log',
                 permanent: false,
             },
         };
@@ -176,34 +176,31 @@ export async function getServerSideProps({ req }) {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decoded.id;
-
-        // Fetch projects for the current user
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (!res.ok) {
-            throw new Error('Failed to fetch projects');
-        }
-
-        const data = await res.json();
-        return {
-            props: {
-                projects: data.projects || [],
-            },
-        };
     } catch (error) {
         console.error(error);
-        // return {
-        //     redirect: {
-        //         destination: '/log-2',
-        //         permanent: false,
-        //     },
-        // };
+        return {
+            redirect: {
+                destination: '/log',
+                permanent: false,
+            },
+        };
     }
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch projects');
+    }
+
+    const data = await res.json();
+    return {
+        props: {
+            projects: data.projects || [],
+        },
+    };
 }
 
 export default ProjectsPage;
