@@ -197,12 +197,12 @@ export async function getServerSideProps({ req }) {
         };
     } catch (error) {
         console.error(error);
-        return {
-            redirect: {
-                destination: '/log-2',
-                permanent: false,
-            },
-        };
+        // return {
+        //     redirect: {
+        //         destination: '/log-2',
+        //         permanent: false,
+        //     },
+        // };
     }
 }
 
