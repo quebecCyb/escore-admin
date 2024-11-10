@@ -21,7 +21,7 @@ export default function Home() {
               </div>
               <span>View more →</span>
           </a>
-          <SwotList />
+          <SwotList projectId={1}/>
       </Layout>
   );
 }
