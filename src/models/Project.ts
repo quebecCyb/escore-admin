@@ -1,12 +1,12 @@
 // Imports and Interfaces
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, {Document, Schema, Model, Types} from 'mongoose';
 import { SaveData, TableData, KPI, SWOTItem, Cluster, Clusters } from "@/schemas/Analysis";
 
 // IProject interface with SaveData type for snapshot
 export interface IProject extends Document {
     name: string;
     snapshot: SaveData;
-    user: string; // Reference to the user identifier
+    user: Types.ObjectId;  // Reference to the user identifier
 }
 
 // Define the KPI schema
