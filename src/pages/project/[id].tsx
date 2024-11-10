@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import SwotList from "@/components/SwotList";
 import jwt from "jsonwebtoken";
 
-export default function Home() {
+export default function Home({projectId}) {
     return (
         <Layout>
             <h2
@@ -21,14 +21,15 @@ export default function Home() {
                 </div>
                 <span>View more →</span>
             </a>
-            <SwotList />
+            <SwotList projectId={projectId} />
         </Layout>
     );
 }
 
-export async function getServerSideProps({req}) {
+export async function getServerSideProps({req, params}) {
 
     const { token } = req.cookies;
+    const { id } = params;
     if (!token) {
         return {
             redirect: {
@@ -39,7 +40,6 @@ export async function getServerSideProps({req}) {
     }
     try {
         jwt.verify(token, process.env.JWT_SECRET);
-        return { props: {} };
     } catch {
         return {
             redirect: {
@@ -51,7 +51,7 @@ export async function getServerSideProps({req}) {
 
     return {
         props: {
-
+            projectId: id
         },
     };
 }

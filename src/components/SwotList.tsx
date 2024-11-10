@@ -11,42 +11,9 @@ import PerspectiveKPITable from "@/components/kpiconnections";
 import ReportImport from "@/components/ReportImport";
 import {useRequiredReport} from "@/contexts/ReportContext";
 import KpiActualTargets from "@/components/KpiActualTargets";
+import { KPI, SWOTItem, SaveData, Clusters, Cluster, TableData } from "@/schemas/Analysis";
 
-interface KPI {
-    name: string;
-    formula: string;
-    description: string;
-    perspective: string;
-    actuals: string;
-    targets: string;
-}
-
-interface SWOTItem {
-    content: string;
-    type: number;
-    critical_success_factor: string;
-    kpi: KPI;
-}
-
-interface Cluster {
-    name: string;
-    strategy: string;
-    mission: string;
-    swot: SWOTItem[];
-}
-
-interface Clusters {
-    vision: string;
-    mission_statement: string;
-    clusters: Cluster[];
-}
-
-interface TableData {
-    clusters: Clusters
-    required_kpi: any
-}
-
-const SwotList = () => {
+const SwotList = ({projectId}) => {
     const [isSaving, setIsSaving] = useState(false);
     const [timer, setTimer] = useState<NodeJS.Timeout | null>(null); // Adjusted state type for NodeJS.Timeout
 
@@ -83,16 +50,69 @@ const SwotList = () => {
         setThreats(e.target.value);
     };
 
+    const load = useCallback(async () => {
+        try {
+            const response = await fetch(`/api/load/${projectId}`);
+            if (!response.ok) {
+                throw new Error(`Error fetching data: ${response.statusText}`);
+            }
+
+            const data: SaveData = await response.json();
+
+            // Populate fields with the fetched data
+            setStrength(data.swot.strength);
+            setWeaknesses(data.swot.weaknesses);
+            setOpportunities(data.swot.opportunities);
+            setThreats(data.swot.threats);
+            setRequiredReport(data.requiredReport);
+            setTableData(data.analysis);
+        } catch (error) {
+            console.error("Failed to load data:", error);
+        }
+    }, [projectId]);
+
+    // Fetch data when the component loads
+    useEffect(() => {
+        load();
+    }, [load]);
+
+
     const save = useCallback(async () => {
         setIsSaving(true);
 
-        // Simulate save operation
-        console.log('Saving report...');
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-        console.log('Report saved successfully!');
+        const saved: SaveData = {
+            swot: {
+                strength,
+                weaknesses,
+                opportunities,
+                threats,
+            },
+            requiredReport,
+            extractReport: [],
+            analysis: tableData,
+        };
 
-        setIsSaving(false);
-    }, []);
+        try {
+            // Send POST request to API endpoint
+            const response = await fetch(`/api/save/${projectId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(saved),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error saving report: ${response.statusText}`);
+            }
+
+            console.log('Report saved successfully!');
+        } catch (error) {
+            console.error('Failed to save report:', error);
+        } finally {
+            setIsSaving(false);
+        }
+    }, [strength, weaknesses, opportunities, threats, requiredReport, tableData]);
 
     // Handle content change
     const handleChange = () => {
@@ -142,6 +162,7 @@ const SwotList = () => {
                 setTableData(data.data);
 
                 setRequiredReport(data.data.clusters.required_kpi)
+                handleChange();
 
             } else {
                 // Handle error
@@ -177,6 +198,7 @@ const SwotList = () => {
                 setWeaknesses(data.data.weaknesses.join(';\n'));
                 setOpportunities(data.data.opportunities.join(';\n'));
                 setThreats(data.data.threats.join(';\n'));
+                handleChange();
 
             } else {
                 // Handle error
